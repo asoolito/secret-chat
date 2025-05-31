@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maxfiy Chat</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="access-container">
+        <h2>Maxfiy Chatga Kirish</h2>
+        <input type="text" id="secret-key" placeholder="Parolni kiriting" />
+        <button id="enter-chat">Kirish</button>
+    </div>
+
+    <div id="chat-container" style="display: none;">
+        <div class="chat-header">
+            <h2>Maxfiy Chat</h2>
+        </div>
+        <div class="chat-box" id="chat-box"></div>
+        <textarea id="message-input" placeholder="Xabar yuboring..." rows="3"></textarea>
+        <button id="send-btn">Yuborish</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
