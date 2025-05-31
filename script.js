@@ -1,85 +1,86 @@
-import { addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+// Firebase configni o'zgaruvchilar bilan o'zgartiring
+const adminUsername = "Admin"; // Admin username
 
-let username = null;
+// DOM elementlarni olish
+const chatBox = document.getElementById("chat-box");
+const chatForm = document.getElementById("chat-form");
+const messageInput = document.getElementById("message-input");
+const loginForm = document.getElementById("login-form");
+const usernameInput = document.getElementById("username-input");
+const chatContainer = document.getElementById("chat-container");
 
-// DOM elements
-const loginScreen = document.getElementById('login-screen');
-const chatScreen = document.getElementById('chat-screen');
-const usernameInput = document.getElementById('username-input');
-const loginBtn = document.getElementById('login-btn');
-const chatBox = document.getElementById('chat-box');
-const chatForm = document.getElementById('chat-form');
-const messageInput = document.getElementById('message-input');
+let currentUser = null;
 
-// Admin username for moderation (o'zingiz tanlaysiz)
-const adminUsername = "admin_hacker";
+// Firebase imports va inits
+import { initializeApp } from "firebase/app";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  onSnapshot,
+  serverTimestamp
+} from "firebase/firestore";
 
-// Kirish funksiyasi
-loginBtn.addEventListener('click', () => {
-  const name = usernameInput.value.trim();
-  if (name.length < 3) {
-    alert("Username kamida 3 ta belgidan iborat bo‘lishi kerak!");
+const firebaseConfig = {
+  // Sizning Firebase config ma'lumotlaringiz
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const messagesRef = collection(db, "messages");
+
+// Login form submit bo‘lganda
+loginForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const username = usernameInput.value.trim();
+  if (username.length < 3) {
+    alert("Username kamida 3 ta belgidan iborat bo'lishi kerak!");
     return;
   }
-  username = name;
-  loginScreen.classList.remove('active');
-  chatScreen.classList.add('active');
-  listenMessages();
+  currentUser = username;
+  loginForm.style.display = "none";
+  chatContainer.style.display = "block";
 });
 
-// Enter bilan ham kirish
-usernameInput.addEventListener('keydown', e => {
-  if(e.key === 'Enter') {
-    loginBtn.click();
+// Chat form submit bo‘lganda (Send tugmasi bosilganda)
+chatForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const message = messageInput.value.trim();
+  if (!message) return;
+
+  // Xabarni Firebase ga qo'shish
+  await addDoc(messagesRef, {
+    username: currentUser,
+    message: message,
+    timestamp: serverTimestamp(),
+  });
+
+  messageInput.value = "";
+});
+
+// Enter bosilganda yuborish, Shift+Enter yangi qatorda yozish
+messageInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    chatForm.dispatchEvent(new Event("submit"));
   }
 });
 
-// Chatdagi xabarlarni tinglash va ko‘rsatish
-function listenMessages() {
-  const q = query(messagesCollection, orderBy('createdAt', 'asc'));
-  onSnapshot(q, (snapshot) => {
-    chatBox.innerHTML = '';
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      const msgEl = document.createElement('div');
-      msgEl.classList.add('message');
-      const userSpan = document.createElement('span');
-      userSpan.classList.add('username');
-      userSpan.textContent = data.username + ": ";
-      const textSpan = document.createElement('span');
-      textSpan.classList.add('text');
-      textSpan.textContent = data.text;
-      msgEl.appendChild(userSpan);
-      msgEl.appendChild(textSpan);
-      chatBox.appendChild(msgEl);
-    });
+// Chatni real vaqtda ko‘rsatish
+const q = query(messagesRef, orderBy("timestamp", "asc"));
+onSnapshot(q, (querySnapshot) => {
+  chatBox.innerHTML = "";
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    const messageElem = document.createElement("div");
+    messageElem.classList.add("message");
+    if (data.username === currentUser) messageElem.classList.add("my-message");
+    if (data.username === adminUsername) messageElem.classList.add("admin-message");
+
+    messageElem.innerHTML = `<strong>${data.username}:</strong> ${data.message}`;
+    chatBox.appendChild(messageElem);
     chatBox.scrollTop = chatBox.scrollHeight;
   });
-}
-
-// Xabar yuborish funksiyasi
-chatForm.addEventListener('submit', async e => {
-  e.preventDefault();
-  const text = messageInput.value.trim();
-  if (!text) return;
-
-  try {
-    await addDoc(messagesCollection, {
-      username,
-      text,
-      createdAt: serverTimestamp()
-    });
-    messageInput.value = '';
-  } catch(err) {
-    alert("Xabar yuborishda xatolik yuz berdi!");
-    console.error(err);
-  }
-});
-
-// Enter + Shift qo‘shilishi
-messageInput.addEventListener('keydown', e => {
-  if(e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    chatForm.dispatchEvent(new Event('submit'));
-  }
 });
