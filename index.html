@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Secret Hacker Chat - Login</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="login-container">
+    <h2>Secret Hacker Chat</h2>
+
+    <!-- Login form -->
+    <form id="login-form">
+      <input type="email" id="email" placeholder="Email" required autocomplete="off" />
+      <input type="password" id="password" placeholder="Password" required autocomplete="off" />
+      <button type="submit">Login</button>
+    </form>
+
+    <!-- Button to show register -->
+    <p>Yoki yangi foydalanuvchi uchun <button id="show-register">Ro‘yxatdan o‘tish</button></p>
+
+    <!-- Register form -->
+    <form id="register-form" style="display:none;">
+      <input type="email" id="reg-email" placeholder="Email" required autocomplete="off" />
+      <input type="password" id="reg-password" placeholder="Password" required autocomplete="off" />
+      <input type="text" id="username" placeholder="Username" required autocomplete="off" />
+      <button type="submit">Register</button>
+    </form>
+
+    <p id="error-msg" class="error"></p>
+  </div>
+
+  <script type="module" src="script.js"></script>
+  <script type="module" src="firebase-config.js"></script>
+</body>
+</html>
