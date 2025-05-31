@@ -1,27 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maxfiy Chat</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Yashirin Hacker Chat</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
 </head>
 <body>
-    <div id="access-container">
-        <h2>Maxfiy Chatga Kirish</h2>
-        <input type="text" id="secret-key" placeholder="Parolni kiriting" />
-        <button id="enter-chat">Kirish</button>
-    </div>
+  <div class="background-glow"></div>
 
-    <div id="chat-container" style="display: none;">
-        <div class="chat-header">
-            <h2>Maxfiy Chat</h2>
-        </div>
-        <div class="chat-box" id="chat-box"></div>
-        <textarea id="message-input" placeholder="Xabar yuboring..." rows="3"></textarea>
-        <button id="send-btn">Yuborish</button>
-    </div>
+  <div class="login-screen" id="login-screen">
+    <h1 class="glow">YASHIRIN CHAT</h1>
+    <p class="subtitle">👤 Kirish uchun nickname tanlang</p>
+    <input type="text" id="nickname" placeholder="Masalan: shadow_890" />
+    <button onclick="enterChat()">Kirish</button>
+  </div>
 
-    <script src="script.js"></script>
+  <div class="chat-screen hidden" id="chat-screen">
+    <header>
+      <h2 class="glow">💬 Maxfiy Chat</h2>
+      <p id="user-label"></p>
+    </header>
+    <div id="chat-box"></div>
+    <form id="chat-form">
+      <input type="text" id="message-input" placeholder="Xabaringizni yozing..." autocomplete="off" />
+      <button type="submit">➤</button>
+    </form>
+  </div>
 </body>
 </html>
