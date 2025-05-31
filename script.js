@@ -1,24 +1,30 @@
-document.getElementById('chat-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const input = document.getElementById('message-input');
-  const message = input.value.trim();
-  if (message) {
-    await db.collection('messages').add({
-      text: message,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    input.value = '';
-  }
-});
+let username = "";
 
-db.collection('messages').orderBy('timestamp')
-  .onSnapshot(snapshot => {
-    const chatBox = document.getElementById('chat-box');
-    chatBox.innerHTML = '';
-    snapshot.forEach(doc => {
-      const msg = document.createElement('div');
-      msg.textContent = '> ' + doc.data().text;
-      chatBox.appendChild(msg);
-    });
-    chatBox.scrollTop = chatBox.scrollHeight;
-  });
+function enterChat() {
+  const nicknameInput = document.getElementById("nickname");
+  if (nicknameInput.value.trim() === "") {
+    alert("Nickname kiriting!");
+    return;
+  }
+
+  username = nicknameInput.value.trim();
+  document.getElementById("user-label").textContent = "👤 Siz: " + username;
+  document.getElementById("login-screen").classList.add("hidden");
+  document.getElementById("chat-screen").classList.remove("hidden");
+}
+
+const form = document.getElementById("chat-form");
+const chatBox = document.getElementById("chat-box");
+
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+  const input = document.getElementById("message-input");
+  const message = input.value.trim();
+  if (message === "") return;
+
+  const p = document.createElement("p");
+  p.innerHTML = `<strong>${username}:</strong> ${message}`;
+  chatBox.appendChild(p);
+  input.value = "";
+  chatBox.scrollTop = chatBox.scrollHeight;
+});
