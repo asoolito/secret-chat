@@ -2,33 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Secret Hacker Chat</title>
-  <link rel="stylesheet" href="style.css" />
-  <script defer src="firebase-config.js"></script>
-  <script defer src="script.js"></script>
+  <title>Simple Chat</title>
+  <style>
+    #chat-box {
+      border: 1px solid #ccc; 
+      height: 300px; 
+      overflow-y: auto; 
+      padding: 10px; 
+      margin-bottom: 10px;
+      background: #111;
+      color: #0f0;
+      font-family: monospace;
+    }
+    .message {
+      margin-bottom: 5px;
+    }
+  </style>
 </head>
 <body>
-  <div class="background"></div>
 
-  <header>
-    <h1>💀 SECRET HACKER CHAT 💀</h1>
-    <p>Only for elite hackers</p>
-  </header>
+  <div id="chat-box"></div>
 
-  <main>
-    <div id="login-screen">
-      <input type="text" id="username" placeholder="Enter your hacker alias..." />
-      <button id="login-btn">Enter Chat</button>
-    </div>
+  <form id="chat-form">
+    <input type="text" id="message-input" autocomplete="off" placeholder="Xabar yozing..." style="width:80%" />
+    <button type="submit" id="send-btn">Send</button>
+  </form>
 
-    <div id="chat-screen" style="display:none;">
-      <div id="chat-box"></div>
-      <form id="chat-form">
-        <input type="text" id="message-input" placeholder="Type your secret message..." required />
-        <button type="submit">Send</button>
-      </form>
-    </div>
-  </main>
+  <script src="script.js"></script>
 </body>
 </html>
