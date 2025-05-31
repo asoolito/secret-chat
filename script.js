@@ -1,38 +1,36 @@
-import { db, auth, signInAnonymously } from './firebase-config.js';
-import { ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+let currentUser = "";
 
-let username = "User" + Math.floor(Math.random() * 1000);
-const chatBox = document.getElementById('chat-box');
-const form = document.getElementById('chat-form');
-const input = document.getElementById('message-input');
+document.getElementById("login-btn").addEventListener("click", () => {
+  const usernameInput = document.getElementById("username").value.trim();
+  if (usernameInput) {
+    currentUser = usernameInput;
+    document.getElementById("login-screen").style.display = "none";
+    document.getElementById("chat-screen").style.display = "flex";
+  }
+});
 
-signInAnonymously(auth)
-  .then(() => {
-    document.getElementById('username-display').innerText = `👤 Siz: ${username}`;
-  })
-  .catch((error) => {
-    console.error("Authentication failed:", error);
-  });
-
-form.addEventListener('submit', e => {
+document.getElementById("chat-form").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const msg = input.value.trim();
-  if (!msg) return;
+  const message = document.getElementById("message-input").value.trim();
+  if (message) {
+    await db.collection("messages").add({
+      username: currentUser,
+      text: message,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    document.getElementById("message-input").value = "";
+  }
+});
 
-  push(ref(db, 'messages'), {
-    name: username,
-    message: msg,
-    time: Date.now()
+db.collection("messages").orderBy("timestamp")
+  .onSnapshot(snapshot => {
+    const chatBox = document.getElementById("chat-box");
+    chatBox.innerHTML = "";
+    snapshot.forEach(doc => {
+      const msg = doc.data();
+      const div = document.createElement("div");
+      div.textContent = `[${msg.username}]: ${msg.text}`;
+      chatBox.appendChild(div);
+    });
+    chatBox.scrollTop = chatBox.scrollHeight;
   });
-
-  input.value = '';
-});
-
-const messagesRef = ref(db, 'messages');
-onChildAdded(messagesRef, (snapshot) => {
-  const msg = snapshot.val();
-  const div = document.createElement('div');
-  div.textContent = `${msg.name}: ${msg.message}`;
-  chatBox.appendChild(div);
-  chatBox.scrollTop = chatBox.scrollHeight;
-});
