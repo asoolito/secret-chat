@@ -1,101 +1,42 @@
-body {
-  background: #0d0d0d;
-  color: #e0e0e0;
-  font-family: 'Courier New', monospace;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
+// Firebase config - o'zingizning configni shu yerga qo'ying
+const firebaseConfig = {
+  apiKey: "SIZNING_API_KEY",
+  authDomain: "SIZNING_AUTH_DOMAIN",
+  databaseURL: "https://hacker-chat-4fff2-default-rtdb.firebaseio.com/",
+  projectId: "hacker-chat-4fff2",
+  storageBucket: "hacker-chat-4fff2.appspot.com",
+  messagingSenderId: "426796888186",
+  appId: "1:426796888186:web:f830147b355ceb0cae8bc3"
+};
+
+// Firebase boshlash
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+const messagesEl = document.getElementById('messages');
+const chatForm = document.getElementById('chat-form');
+const msgInput = document.getElementById('msg');
+
+// Xabarlarni olish va real vaqtda ko'rsatish
+db.ref('messages').limitToLast(100).on('child_added', snapshot => {
+  const message = snapshot.val();
+  addMessageToUI(message.text);
+});
+
+// UI ga xabar qo'shish funksiyasi
+function addMessageToUI(text) {
+  const div = document.createElement('div');
+  div.classList.add('message');
+  div.textContent = text;
+  messagesEl.appendChild(div);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
-h1 {
-  margin-top: 20px;
-  color: #00ffee;
-  text-shadow: 0 0 10px #00ffee;
-}
-
-#mask {
-  width: 100px;
-  opacity: 0.3;
-  margin: 10px auto;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.6; }
-}
-
-#messages {
-  width: 90%;
-  max-width: 600px;
-  height: 320px;
-  overflow-y: auto;
-  background: #1a1a1a;
-  border: 1px solid #333;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0,255,255,0.2);
-  padding: 10px;
-  margin-bottom: 15px;
-}
-
-#messages div {
-  background: #262626;
-  margin: 5px 0;
-  padding: 8px 10px;
-  border-radius: 5px;
-  color: #cfcfcf;
-  border-left: 4px solid #00ffee;
-}
-
-#typing {
-  font-style: italic;
-  color: #00ffee;
-  margin-bottom: 10px;
-  height: 20px;
-  text-shadow: 0 0 3px #00ffee;
-}
-
-#inputContainer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  padding: 10px;
-  background: #111;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,255,255,0.1);
-}
-
-input, button {
-  background: #1c1c1c;
-  color: #e0e0e0;
-  border: 1px solid #00ffee;
-  padding: 10px;
-  font-family: inherit;
-  font-size: 1em;
-  border-radius: 5px;
-  transition: 0.3s;
-}
-
-input:focus, button:focus {
-  outline: none;
-  box-shadow: 0 0 5px #00ffee;
-}
-
-button:hover {
-  background: #00ffee;
-  color: #000;
-  cursor: pointer;
-}
-
-@media (max-width: 600px) {
-  #messages {
-    height: 250px;
-  }
-  input, button {
-    width: 100%;
-  }
-}
+// Xabar yuborish
+chatForm.addEventListener('submit', e => {
+  e.preventDefault();
+  const text = msgInput.value.trim();
+  if (text.length === 0) return;
+  db.ref('messages').push({ text });
+  msgInput.value = '';
+});
