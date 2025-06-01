@@ -2,35 +2,37 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hacker Chat</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hacker Style Secret Chat</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>💀 Anonymous Hacker Chat 💀</h1>
+  <div class="container">
+    <header>
+      <img src="https://i.ytimg.com/vi/isVVduralns/maxresdefault.jpg" alt="Anonymous Mask" class="mask" />
+      <h1>🕶️ Secret Hacker Chat</h1>
+      <p class="subtitle">Asoschi: <span class="founder">Anonymous_890</span></p>
+    </header>
 
-  <!-- Yangi rasm: Anonymous mask -->
-  <img id="mask" src="https://i.ytimg.com/vi/isVVduralns/maxres2.jpg" alt="Anonymous Mask">
+    <main>
+      <div id="messages" class="messages"></div>
 
-  <div id="messages"></div>
-  <div id="typing"></div>
-
-  <div id="inputContainer">
-    <input type="text" id="username" placeholder="Ismingiz">
-    <input type="text" id="messageInput" placeholder="Xabaringiz">
-    <button id="sendBtn">Yuborish</button>
+      <form id="chat-form">
+        <input
+          id="msg"
+          autocomplete="off"
+          placeholder="Xabaringizni yozing..."
+          required
+          maxlength="200"
+          autofocus
+        />
+        <button type="submit">Yuborish</button>
+      </form>
+    </main>
   </div>
 
-  <!-- Asoschi yozuvi -->
-  <div id="founder">
-    🧠 Asoschi: <span>Anonymous_890</span>
-  </div>
-
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-
-  <!-- JS -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
