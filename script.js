@@ -16,29 +16,33 @@ const db = firebase.database();
 const messagesEl = document.getElementById('messages');
 const chatForm = document.getElementById('chat-form');
 const msgInput = document.getElementById('msg');
-const usernameInput = document.getElementById('username');
 
-// Xabar chiqarish
-function addMessageToUI(username, text) {
+db.ref('messages').limitToLast(100).on('child_added', snapshot => {
+  const message = snapshot.val();
+  addMessageToUI(message.username + ": " + message.text);
+});
+
+function addMessageToUI(text) {
   const div = document.createElement('div');
   div.classList.add('message');
-  div.innerHTML = `<span class="user">${username}:</span> ${text}`;
+  div.textContent = text;
   messagesEl.appendChild(div);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
-// Xabarlarni real vaqtda olish
-db.ref('messages').limitToLast(100).on('child_added', snapshot => {
-  const data = snapshot.val();
-  addMessageToUI(data.username, data.text);
-});
-
-// Xabar yuborish
 chatForm.addEventListener('submit', e => {
   e.preventDefault();
-  const username = usernameInput.value.trim() || 'Anonymous';
   const text = msgInput.value.trim();
-  if (text.length === 0) return;
+  if (!text) return;
+
+  // Foydalanuvchi ismini olish (masalan, prompt orqali)
+  let username = localStorage.getItem('username');
+  if (!username) {
+    username = prompt("Ismingizni kiriting:");
+    if (!username) username = "Anonymous";
+    localStorage.setItem('username', username);
+  }
+
   db.ref('messages').push({ username, text });
   msgInput.value = '';
 });
