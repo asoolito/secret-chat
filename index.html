@@ -2,25 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hacker Chat</title>
-  <link rel="stylesheet" href="style.css"/>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anonymous Hacker Chat</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script defer src="script.js"></script>
 </head>
 <body>
   <div class="container">
     <header>
-      <img class="mask" src="https://i.ytimg.com/vi/isVVduralns/maxres2.jpg" />
-      <h1>HACKER CHAT</h1>
-      <p class="subtitle">Asoschi: <span class="founder">Anonymous_890</span></p>
+      <img class="mask" src="https://i.ytimg.com/vi/isVVduralns/maxres2.jpg" alt="Anonymous Mask" />
+      <h1>Hacker Chat</h1>
+      <p class="subtitle">🎭 Asoschi: <span class="founder">Anonymous_890</span></p>
     </header>
-    <div class="messages" id="messages"></div>
+    <div id="messages" class="messages"></div>
     <form id="chat-form">
-      <input type="text" id="msg" placeholder="Xabaringiz..." autocomplete="off" />
+      <input type="text" id="username" placeholder="Username" required />
+      <input type="text" id="msg" placeholder="Xabar yozing..." required />
       <button type="submit">Yuborish</button>
     </form>
   </div>
-  <script src="script.js"></script>
 </body>
 </html>
