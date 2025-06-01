@@ -1,7 +1,7 @@
 // Firebase config - o'zingizning configni shu yerga qo'ying
 const firebaseConfig = {
-  apiKey: "SIZNING_API_KEY",
-  authDomain: "SIZNING_AUTH_DOMAIN",
+  apiKey: "AIzaSyByz_qsV-EcBgnbAbOIRvD9SQD06NcWzyM",
+  authDomain: "hacker-chat-4fff2.firebaseapp.com",
   databaseURL: "https://hacker-chat-4fff2-default-rtdb.firebaseio.com/",
   projectId: "hacker-chat-4fff2",
   storageBucket: "hacker-chat-4fff2.appspot.com",
