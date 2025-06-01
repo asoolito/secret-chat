@@ -1,4 +1,3 @@
-// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyByz_qsV-EcBgnbAbOIRvD9SQD06NcWzyM",
   authDomain: "hacker-chat-4fff2.firebaseapp.com",
@@ -8,7 +7,6 @@ const firebaseConfig = {
   messagingSenderId: "426796888186",
   appId: "1:426796888186:web:f830147b355ceb0cae8bc3"
 };
-
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
@@ -35,7 +33,6 @@ chatForm.addEventListener('submit', e => {
   const text = msgInput.value.trim();
   if (!text) return;
 
-  // Foydalanuvchi ismini olish (masalan, prompt orqali)
   let username = localStorage.getItem('username');
   if (!username) {
     username = prompt("Ismingizni kiriting:");
@@ -46,9 +43,3 @@ chatForm.addEventListener('submit', e => {
   db.ref('messages').push({ username, text });
   msgInput.value = '';
 });
-{
-  "rules": {
-    ".read": true,
-    ".write": true
-  }
-}
