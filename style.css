@@ -1,7 +1,6 @@
-
 body {
-  background: #000;
-  color: #0f0;
+  background: #0d0d0d;
+  color: #e0e0e0;
   font-family: 'Courier New', monospace;
   display: flex;
   flex-direction: column;
@@ -12,63 +11,84 @@ body {
 }
 
 h1 {
-  text-shadow: 0 0 10px #0f0;
   margin-top: 20px;
+  color: #00ffee;
+  text-shadow: 0 0 10px #00ffee;
 }
 
 #mask {
   width: 100px;
-  opacity: 0.2;
-  animation: flicker 2s infinite;
+  opacity: 0.3;
   margin: 10px auto;
+  animation: pulse 2s infinite;
 }
 
-@keyframes flicker {
-  0%, 100% { opacity: 0.2; }
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
   50% { opacity: 0.6; }
 }
 
 #messages {
   width: 90%;
   max-width: 600px;
-  height: 300px;
+  height: 320px;
   overflow-y: auto;
-  border: 2px solid #0f0;
-  background: rgba(0, 255, 0, 0.05);
-  box-shadow: 0 0 20px #0f0;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0,255,255,0.2);
   padding: 10px;
-  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+#messages div {
+  background: #262626;
+  margin: 5px 0;
+  padding: 8px 10px;
+  border-radius: 5px;
+  color: #cfcfcf;
+  border-left: 4px solid #00ffee;
+}
+
+#typing {
+  font-style: italic;
+  color: #00ffee;
   margin-bottom: 10px;
+  height: 20px;
+  text-shadow: 0 0 3px #00ffee;
 }
 
 #inputContainer {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 5px;
+  gap: 10px;
+  padding: 10px;
+  background: #111;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,255,255,0.1);
 }
 
 input, button {
-  background: #000;
-  color: #0f0;
-  border: 2px solid #0f0;
+  background: #1c1c1c;
+  color: #e0e0e0;
+  border: 1px solid #00ffee;
   padding: 10px;
   font-family: inherit;
   font-size: 1em;
   border-radius: 5px;
-  box-shadow: 0 0 8px #0f0;
+  transition: 0.3s;
+}
+
+input:focus, button:focus {
+  outline: none;
+  box-shadow: 0 0 5px #00ffee;
 }
 
 button:hover {
-  background: #0f0;
+  background: #00ffee;
   color: #000;
   cursor: pointer;
-}
-
-#typing {
-  font-style: italic;
-  color: #0f0;
-  text-shadow: 0 0 3px #0f0;
 }
 
 @media (max-width: 600px) {
@@ -77,6 +97,5 @@ button:hover {
   }
   input, button {
     width: 100%;
-    font-size: 1em;
   }
 }
