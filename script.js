@@ -42,3 +42,9 @@ chatForm.addEventListener('submit', e => {
   db.ref('messages').push({ username, text });
   msgInput.value = '';
 });
+{
+  "rules": {
+    ".read": true,
+    ".write": true
+  }
+}
