@@ -99,3 +99,15 @@ button:hover {
     width: 100%;
   }
 }
+#founder {
+  margin-top: 20px;
+  color: #999;
+  font-size: 14px;
+  text-align: center;
+  font-style: italic;
+}
+
+#founder span {
+  color: #00ffee;
+  font-weight: bold;
+}
