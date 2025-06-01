@@ -2,12 +2,13 @@
 const firebaseConfig = {
   apiKey: "AIzaSyByz_qsV-EcBgnbAbOIRvD9SQD06NcWzyM",
   authDomain: "hacker-chat-4fff2.firebaseapp.com",
-  databaseURL: "https://hacker-chat-4fff2-default-rtdb.firebaseio.com/",
+  databaseURL: "https://hacker-chat-4fff2-default-rtdb.firebaseio.com",
   projectId: "hacker-chat-4fff2",
   storageBucket: "hacker-chat-4fff2.appspot.com",
   messagingSenderId: "426796888186",
   appId: "1:426796888186:web:f830147b355ceb0cae8bc3"
 };
+
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
