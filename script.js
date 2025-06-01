@@ -1,69 +1,101 @@
-
-// Firebase config
-const firebaseConfig = {
-  apiKey: "AIzaSyByz_qsV-EcBgnbAbOIRvD9SQD06NcWzyM",
-  authDomain: "hacker-chat-4fff2.firebaseapp.com",
-  databaseURL: "https://hacker-chat-4fff2-default-rtdb.firebaseio.com",
-  projectId: "hacker-chat-4fff2",
-  storageBucket: "hacker-chat-4fff2.appspot.com",
-  messagingSenderId: "426796888186",
-  appId: "1:426796888186:web:f830147b355ceb0cae8bc3"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-const messagesRef = db.ref("messages");
-
-const messagesDiv = document.getElementById("messages");
-const usernameInput = document.getElementById("username");
-const messageInput = document.getElementById("messageInput");
-const sendBtn = document.getElementById("sendBtn");
-const typingDiv = document.getElementById("typing");
-
-sendBtn.addEventListener("click", sendMessage);
-messageInput.addEventListener("keypress", e => {
-  if (e.key === "Enter") sendMessage();
-  sendTypingStatus();
-});
-
-function sendMessage() {
-  const username = usernameInput.value.trim();
-  const text = messageInput.value.trim();
-  if (!username || !text) return alert("Ism va xabar kiriting!");
-
-  messagesRef.push({
-    username,
-    text,
-    timestamp: Date.now()
-  });
-
-  messageInput.value = "";
-  sendTypingStatus(false);
+body {
+  background: #0d0d0d;
+  color: #e0e0e0;
+  font-family: 'Courier New', monospace;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
-function showMessage(data) {
-  const div = document.createElement("div");
-  div.textContent = `${data.username}: ${data.text}`;
-  messagesDiv.appendChild(div);
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+h1 {
+  margin-top: 20px;
+  color: #00ffee;
+  text-shadow: 0 0 10px #00ffee;
 }
 
-let typingTimeout;
-function sendTypingStatus(active = true) {
-  const username = usernameInput.value.trim();
-  if (!username) return;
-
-  db.ref("typing").set(active ? `${username} yozmoqda...` : "");
-  if (typingTimeout) clearTimeout(typingTimeout);
-  typingTimeout = setTimeout(() => {
-    db.ref("typing").set("");
-  }, 2000);
+#mask {
+  width: 100px;
+  opacity: 0.3;
+  margin: 10px auto;
+  animation: pulse 2s infinite;
 }
 
-db.ref("typing").on("value", snapshot => {
-  typingDiv.textContent = snapshot.val() || "";
-});
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
 
-messagesRef.on("child_added", snapshot => {
-  showMessage(snapshot.val());
-});
+#messages {
+  width: 90%;
+  max-width: 600px;
+  height: 320px;
+  overflow-y: auto;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0,255,255,0.2);
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+#messages div {
+  background: #262626;
+  margin: 5px 0;
+  padding: 8px 10px;
+  border-radius: 5px;
+  color: #cfcfcf;
+  border-left: 4px solid #00ffee;
+}
+
+#typing {
+  font-style: italic;
+  color: #00ffee;
+  margin-bottom: 10px;
+  height: 20px;
+  text-shadow: 0 0 3px #00ffee;
+}
+
+#inputContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  background: #111;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,255,255,0.1);
+}
+
+input, button {
+  background: #1c1c1c;
+  color: #e0e0e0;
+  border: 1px solid #00ffee;
+  padding: 10px;
+  font-family: inherit;
+  font-size: 1em;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+input:focus, button:focus {
+  outline: none;
+  box-shadow: 0 0 5px #00ffee;
+}
+
+button:hover {
+  background: #00ffee;
+  color: #000;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  #messages {
+    height: 250px;
+  }
+  input, button {
+    width: 100%;
+  }
+}
