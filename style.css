@@ -1,45 +1,117 @@
-// Firebase config
-const firebaseConfig = {
-  apiKey: "AIzaSyByz_qsV-EcBgnbAbOIRvD9SQD06NcWzyM",
-  authDomain: "hacker-chat-4fff2.firebaseapp.com",
-  databaseURL: "https://hacker-chat-4fff2-default-rtdb.firebaseio.com/",
-  projectId: "hacker-chat-4fff2",
-  storageBucket: "hacker-chat-4fff2.appspot.com",
-  messagingSenderId: "426796888186",
-  appId: "1:426796888186:web:f830147b355ceb0cae8bc3"
-};
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-
-const messagesEl = document.getElementById('messages');
-const chatForm = document.getElementById('chat-form');
-const msgInput = document.getElementById('msg');
-
-// Foydalanuvchi nomi so‘raladi
-let username = prompt("Foydalanuvchi ismingizni kiriting:") || "Anonymous";
-
-// Xabarlarni olish
-db.ref('messages').limitToLast(100).on('child_added', snapshot => {
-  const message = snapshot.val();
-  addMessageToUI(message.username, message.text);
-});
-
-// Xabar UI ga qo‘shish
-function addMessageToUI(user, text) {
-  const div = document.createElement('div');
-  div.classList.add('message');
-  div.innerHTML = `<strong>${user}:</strong> ${text}`;
-  messagesEl.appendChild(div);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-// Yuborish
-chatForm.addEventListener('submit', e => {
-  e.preventDefault();
-  const text = msgInput.value.trim();
-  if (text.length === 0) return;
-  db.ref('messages').push({ username, text });
-  msgInput.value = '';
-});
+body {
+  background: #000000;
+  color: #00ff00;
+  font-family: 'Share Tech Mono', monospace;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 600px;
+  background: #0d0d0d;
+  border: 2px solid #00ff00;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 15px;
+  user-select: none;
+}
+
+.mask {
+  width: 80px;
+  border-radius: 50%;
+  border: 2px solid #00ff00;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 0 5px #00ff00);
+}
+
+h1 {
+  font-size: 2em;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  font-size: 0.9em;
+  color: #009900;
+}
+
+.founder {
+  font-weight: bold;
+  color: #00ff00;
+}
+
+.messages {
+  background: #111;
+  flex-grow: 1;
+  padding: 15px;
+  overflow-y: auto;
+  border: 1px solid #00ff00;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  font-size: 0.95em;
+  line-height: 1.3;
+  user-select: text;
+}
+
+.messages .message {
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  border-left: 4px solid #00ff00;
+  background: #001100;
+  border-radius: 6px;
+  word-wrap: break-word;
+}
+
+form {
+  display: flex;
+}
+
+input#msg {
+  flex-grow: 1;
+  background: #000;
+  border: 2px solid #00ff00;
+  color: #00ff00;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1em;
+  padding: 10px;
+  border-radius: 6px 0 0 6px;
+  outline: none;
+}
+
+input#msg::placeholder {
+  color: #004d00;
+}
+
+button {
+  background: #00ff00;
+  border: none;
+  color: #000;
+  font-weight: bold;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1em;
+  padding: 10px 20px;
+  border-radius: 0 6px 6px 0;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #009900;
+}
