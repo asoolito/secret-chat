@@ -9,35 +9,33 @@ const firebaseConfig = {
   appId: "1:426796888186:web:f830147b355ceb0cae8bc3"
 };
 
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 const messagesEl = document.getElementById('messages');
 const chatForm = document.getElementById('chat-form');
 const msgInput = document.getElementById('msg');
+const usernameInput = document.getElementById('username');
 
-// Foydalanuvchi nomi so‘raladi
-let username = prompt("Foydalanuvchi ismingizni kiriting:") || "Anonymous";
-
-// Xabarlarni olish
-db.ref('messages').limitToLast(100).on('child_added', snapshot => {
-  const message = snapshot.val();
-  addMessageToUI(message.username, message.text);
-});
-
-// Xabar UI ga qo‘shish
-function addMessageToUI(user, text) {
+// Xabar chiqarish
+function addMessageToUI(username, text) {
   const div = document.createElement('div');
   div.classList.add('message');
-  div.innerHTML = `<strong>${user}:</strong> ${text}`;
+  div.innerHTML = `<span class="user">${username}:</span> ${text}`;
   messagesEl.appendChild(div);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
-// Yuborish
+// Xabarlarni real vaqtda olish
+db.ref('messages').limitToLast(100).on('child_added', snapshot => {
+  const data = snapshot.val();
+  addMessageToUI(data.username, data.text);
+});
+
+// Xabar yuborish
 chatForm.addEventListener('submit', e => {
   e.preventDefault();
+  const username = usernameInput.value.trim() || 'Anonymous';
   const text = msgInput.value.trim();
   if (text.length === 0) return;
   db.ref('messages').push({ username, text });
